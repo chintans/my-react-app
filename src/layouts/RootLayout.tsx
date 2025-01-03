@@ -2,13 +2,15 @@ import { Theme } from '@radix-ui/themes'
 import { useState } from 'react'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
+import { useTheme } from '../contexts/ThemeContext'
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const { theme } = useTheme()
 
   return (
-    <Theme appearance="dark" accentColor="green" scaling="95%">
-      <div className="min-h-screen flex bg-dark-200">
+    <Theme appearance={theme} accentColor="green" scaling="95%">
+      <div className="min-h-screen flex transition-colors duration-200 bg-light-300 text-gray-900 dark:bg-dark-300 dark:text-gray-100">
         <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
         <div className="flex-1 flex flex-col">
           <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />

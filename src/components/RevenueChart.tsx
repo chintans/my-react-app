@@ -2,6 +2,7 @@ import { Card, Text, Button } from '@radix-ui/themes'
 import { DownloadIcon, DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { cn } from '../lib/utils'
+import { useTheme } from '../contexts/ThemeContext'
 
 const data = [
   { month: 'Mar 2023', revenue: 28000, target: 25000 },
@@ -43,7 +44,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null
 }
 
-const CustomizedDot = ({ cx, cy, value, index }: any) => {
+const CustomizedDot = ({ cx, cy, index }: any) => {
   return (
     <circle 
       cx={cx} 
@@ -62,7 +63,7 @@ const CustomizedDot = ({ cx, cy, value, index }: any) => {
 export function RevenueChart() {
   const currentRevenue = data[data.length - 1].revenue
   const currentTarget = data[data.length - 1].target
-  const percentage = Math.round((currentRevenue / currentTarget) * 100)
+  const { theme } = useTheme()
 
   return (
     <Card className="bg-dark-100 border-dark-300 col-span-2">
@@ -129,10 +130,15 @@ export function RevenueChart() {
               <Line
                 type="monotone"
                 dataKey="revenue"
-                stroke="#22c55e"
+                stroke={theme === 'dark' ? '#22c55e' : '#287f71'}
                 strokeWidth={2}
                 dot={<CustomizedDot />}
-                activeDot={{ r: 6, fill: "#22c55e", stroke: "#22c55e20", strokeWidth: 4 }}
+                activeDot={{ 
+                  r: 6, 
+                  fill: theme === 'dark' ? '#22c55e' : '#287f71', 
+                  stroke: theme === 'dark' ? '#22c55e20' : '#287f7120', 
+                  strokeWidth: 4 
+                }}
               />
               <Line
                 type="monotone"
